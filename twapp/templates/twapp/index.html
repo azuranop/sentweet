@@ -1,0 +1,11 @@
+{% if latest_tweets_list %}
+    <ul>
+    {% for tweet in latest_tweets_list %}
+         <li><a href="/twapp/{{tweet.content}}/">{{tweet.content}}</a></li>
+         <li><a href="/twapp/{{tweet.prop}}/">{{tweet.prop}}</a></li>
+         <li><a href="/twapp/{{tweet.datetime}}/">{{tweet.datetime}}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+     <p>No tweets available.</p>
+{% endif %}
