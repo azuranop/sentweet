@@ -4,9 +4,10 @@ import sys
 import time
 import twitter
 import MySQLdb
+import pickle
 
+from extractwords import extractwords, word_feats
 from training import classifier, extract_features
-from extractwords import extractwords
 from django.core.management.base import BaseCommand
 from web.twapp.models import Tweet
 from database import login_db
@@ -15,13 +16,16 @@ from twitter_util import makeTwitterRequest
 from mysql_date import mysql_date
 
 class Command(BaseCommand):
-    help = 'Retrieve the tweets'
+    help = 'Retrieve the tweets and classify them with the Bayesian classifier'
 
     def handle(self, *args, **options):
 
+        # Load the classifier
 
-        # User screen name whose tweets we want to mine
+        f = open('bayesclass.pickle')
+        classifier = pickle.load(f)
 
+#         users = ['alonso', 'ladygaga', 'timoreilly']
         user = 'ladygaga'
 
         # For the Twitter API call
@@ -40,8 +44,7 @@ class Command(BaseCommand):
            cursor = conn.cursor()
 
            # Select id of latest tweet in database
-
-           # Database must has been created  
+           # Database needs to be setup before running this
   
            cursor.execute("SELECT max(tweet_id) FROM twapp_tweet WHERE user=%s",(user))
            latestId = cursor.fetchone()
@@ -66,15 +69,17 @@ class Command(BaseCommand):
 
               txt = tweets[i]['text']
 
-              b = extractwords(txt)
-              outc = int(bool(classifier.classify(extract_features(b))))
+              print classifier.classify(word_feats(txt))
+
+              outc = int(classifier.classify(word_feats(txt)))
+
               ref = tweets[i]['id']
               src = tweets[i]['source']
               created = mysql_date(tweets[i]['created_at'])
-              print(created)
+
               try:
 
-              # Insert into database 
+              #Insert into database 
 
                 cursor.execute ("INSERT INTO  twapp_tweet(user,content,source,tweet_id,datetime,prop) VALUES (%s,%s,%s,%s,%s,%s) ", (user,txt,src,ref,created,outc))
               except MySQLdb.Error, e:
@@ -89,3 +94,5 @@ class Command(BaseCommand):
            print "Error %d: %s" % (e.args[0], e.args[1])
            print "While handling %s" % (user)
            sys.exit (1)
+
+        f.close()

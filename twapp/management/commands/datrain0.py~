@@ -6,8 +6,8 @@ import twitter
 import MySQLdb
 import json
 
-from training import classifier, extract_features
-from extractwords import extractwords
+#from training import classifier, extract_features
+#from extractwords import extractwords
 from django.core.management.base import BaseCommand
 from web.twapp.models import Tweet
 from database import login_db
