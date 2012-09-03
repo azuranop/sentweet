@@ -1,0 +1,17 @@
+
+# Overview
+
+  This code retrieve tweets from an user and classify them as positive or 
+  negative
+
+  You need to install following modules: 
+
+  - python-twitter: https://github.com/sixohsix/twitter
+  - nltk
+  - mysql
+
+  1. Use training.py to retrieve tweets and to train the Bayesian classifier
+
+  2. Once the Bayesian classifier has been setup, you can mine and classify 
+     tweets with tweext.py
+
