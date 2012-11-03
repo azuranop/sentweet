@@ -40,13 +40,12 @@ class Command(BaseCommand):
               'id' : 2} 
 
         p = Tweet.objects.aggregate(Max('tweet_id'))
-#        print(p)
+
         latestId = p['tweet_id__max']
         if latestId == None:
            latestId = 1
 
         KW['since_id'] = int(latestId)
-        print(KW['since_id'])
 
         api_call = getattr(t.statuses, 'user_timeline')
         tweets = makeTwitterRequest(t, api_call, **KW)

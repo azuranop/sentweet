@@ -18,7 +18,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-
         n = 10   # Number of training tweets
         SEARCH_TERM = ':)'
         
