@@ -2,6 +2,7 @@
 
 import os
 import twitter
+import config 
 
 from twitter.oauth import write_token_file, read_token_file
 from twitter.oauth_dance import oauth_dance
@@ -9,28 +10,27 @@ from twitter.oauth_dance import oauth_dance
 
 def login():
 
-    # Go to http://twitter.com/apps/new to create an app and get these items
-    # See also http://dev.twitter.com/pages/oauth_single_token
-
-    APP_NAME = 'your_app_name'
-    CONSUMER_KEY = ''
-    CONSUMER_SECRET = ''
-    TOKEN_FILE = 'out/twitter.oauth'
+    c = config.Config()
+    d = c.cfg
+    
+    app_name = d.get('twitter', 'app_name')
+    consumer_key = d.get('twitter', 'consumer_key')
+    consumer_secret = d.get('twitter', 'consumer_secret')
+    token_file = d.get('twitter', 'token_file')
 
     try:
-        (oauth_token, oauth_token_secret) = read_token_file(TOKEN_FILE)
+        (oauth_token, oauth_token_secret) = read_token_file(token_file)
     except IOError, e:
-        (oauth_token, oauth_token_secret) = oauth_dance(APP_NAME, CONSUMER_KEY,
-                CONSUMER_SECRET)
+        (oauth_token, oauth_token_secret) = oauth_dance(app_name, consumer_key,
+                consumer_secret)
 
         if not os.path.isdir('out'):
             os.mkdir('out')
 
-        write_token_file(TOKEN_FILE, oauth_token, oauth_token_secret)
+        write_token_file(token_file, oauth_token, oauth_token_secret)
          
     return twitter.Twitter(domain='api.twitter.com', api_version='1',
-                        auth=twitter.oauth.OAuth(oauth_token, oauth_token_secret,
-                        CONSUMER_KEY, CONSUMER_SECRET))
+                        auth=twitter.oauth.OAuth(oauth_token, oauth_token_secret, consumer_key, consumer_secret))
 
 if __name__ == '__main__':
     login()

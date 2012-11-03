@@ -8,7 +8,6 @@
 
   - python-twitter: https://github.com/sixohsix/twitter
   - nltk
-  - MySQLdb
 
   1. Use training.py to retrieve tweets and to train the Bayesian classifier
 
