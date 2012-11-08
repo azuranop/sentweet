@@ -2,7 +2,7 @@
 # Overview
 
   This code retrieves tweets from an user and classify them as positive or 
-  negative using django
+  negative using django. Please feel free to modify/enhance it. 
 
   You need to install following modules: 
 
