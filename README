@@ -1,16 +1,18 @@
 
-# Overview
+0. Overview
 
   This code retrieves tweets from an user and classify them as positive or 
-  negative using django. Please feel free to modify/enhance it. 
+  negative using python/django. This code is provided for demostration purposes   only. 
 
-  You need to install following modules: 
+1. Dependencies 
 
   - python-twitter: https://github.com/sixohsix/twitter
   - nltk
 
-  1. Use training.py to retrieve tweets and to train the Bayesian classifier
+2. Instructions
 
-  2. Once the Bayesian classifier has been setup, you can mine and classify 
-     tweets with tweext.py
+  1. Use training.py to retrieve tweets and to train the Bayesian classifier.
+     
+  2. Mine and classify tweets with tweext.py and the Bayesian classifier 
+     resulting from the training process.
 
